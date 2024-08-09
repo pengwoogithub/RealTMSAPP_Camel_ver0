@@ -41,6 +41,7 @@ dependencies {
     implementation("androidx.fragment:fragment:$fragment_version")
     implementation ("com.google.android.material:material:1.7.0")
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

@@ -32,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         return new HomeFragment();
                     case 1:
-                        return new SettingsFragment();
-                    case 2:
                         return new TrialsFragment();
+                    case 2:
+                        return new SettingsFragment();
                     default:
                         return new HomeFragment();
                 }

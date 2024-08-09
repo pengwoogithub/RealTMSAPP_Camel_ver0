@@ -7,9 +7,6 @@
     tools:context=".fragments.HomeFragment">
 
 
-
-
-
     <EditText
         android:id="@+id/Process"
         android:layout_width="wrap_content"
@@ -37,18 +34,33 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <EditText
+        android:id="@+id/Model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15sp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Model"
+        android:textSize="20dp"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Person" />
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/TimerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="60sp"
         android:textStyle="bold"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent
-"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Model"
         app:layout_constraintStart_toStartOf="parent"
         />
 
@@ -57,36 +69,72 @@
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20sp"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/buttons0"
+        android:layout_margin="30sp"
+        android:layout_marginTop="500dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="horizontal">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
         <com.google.android.material.button.MaterialButton
-            android:layout_width="0sp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Reset"
             android:id="@+id/Reset"
-            />
-        <com.google.android.material.button.MaterialButton
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Start"
+            android:text="Reset" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/Start"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5sp"
-            android:layout_marginEnd="5sp" />
+            android:layout_marginEnd="5sp"
+            android:layout_weight="1"
+            android:text="Start" />
+
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/Stop"
             android:layout_width="0sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:id="@+id/Stop"
             android:enabled="false"
-            android:text="stop"
-            />
+            android:text="Stop" />
+
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/buttons0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TimerView"
+        android:layout_margin="30sp"
+        android:layout_marginTop="500dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Another"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="New Process" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Save"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:layout_marginEnd="5sp"
+            android:layout_weight="1"
+            android:text="Save Time" />
+
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
