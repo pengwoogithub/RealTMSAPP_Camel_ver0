@@ -3,6 +3,7 @@ package com.example.realtmsapp_camel;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialViewHolder> {
-
 
     private List<Trial> trialsList;
 
@@ -24,6 +24,7 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialViewHol
     public TrialViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trial, parent, false);
         return new TrialViewHolder(view);
+
     }
 
     @Override
@@ -53,13 +54,14 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialViewHol
 
     public void setTrialsList(List<Trial> trialsList) {
         this.trialsList = trialsList;
-        notifyDataSetChanged(); // Notify the adapter to refresh the list
+        notifyDataSetChanged(); // para refresh adapter pag may bagong mga data
     }
 
     public static class TrialViewHolder extends RecyclerView.ViewHolder {
         TextView processTextView, personTextView, modelTextView;
         TextView trial1TextView, trial2TextView, trial3TextView, trial4TextView, trial5TextView;
         TextView trial6TextView, trial7TextView, trial8TextView, trial9TextView, trial10TextView;
+        LinearLayout detailsContainer;
 
         public TrialViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +78,16 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialViewHol
             trial8TextView = itemView.findViewById(R.id.trial8TextView);
             trial9TextView = itemView.findViewById(R.id.trial9TextView);
             trial10TextView = itemView.findViewById(R.id.trial10TextView);
+
+            detailsContainer = itemView.findViewById(R.id.detailsContainer);
+
+            itemView.setOnClickListener(v -> { //para makita mga values pag needed lang
+                if (detailsContainer.getVisibility() == View.GONE) {
+                    detailsContainer.setVisibility(View.VISIBLE);
+                } else {
+                    detailsContainer.setVisibility(View.GONE);
+                }
+            });
         }
     }
 }
