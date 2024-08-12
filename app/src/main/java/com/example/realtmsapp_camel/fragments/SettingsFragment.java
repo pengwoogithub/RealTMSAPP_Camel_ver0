@@ -1,64 +1,137 @@
 package com.example.realtmsapp_camel.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.example.realtmsapp_camel.R;
+import android.widget.Button;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
+import com.example.realtmsapp_camel.DatabaseHelper;
+import com.example.realtmsapp_camel.R;
+import com.example.realtmsapp_camel.Trial;
+
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 public class SettingsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private Button exportButton;
+    private DatabaseHelper databaseHelper;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SettingsFragment newInstance(String param1, String param2) {
-        SettingsFragment fragment = new SettingsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     public SettingsFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        exportButton = view.findViewById(R.id.Export);
+        databaseHelper = new DatabaseHelper(getActivity());
+
+        exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportDatabaseToExcel();
+            }
+        });
+
+        return view;
+    }
+
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                exportDatabaseToExcel();
+            } else {
+                Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void exportDatabaseToExcel() {
+        try {
+            // Create a workbook and sheet
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Trial Data");
+
+            // Fetch data from the database
+            List<Trial> trialsList = databaseHelper.getAllTrials();
+
+            // Add headers
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Process");
+            headerRow.createCell(1).setCellValue("Person");
+            headerRow.createCell(2).setCellValue("Model");
+            for (int i = 1; i <= 10; i++) {
+                headerRow.createCell(i + 2).setCellValue("Trial" + i);
+            }
+
+            // Add data rows
+            int rowIndex = 1;
+            for (Trial trial : trialsList) {
+                Row row = sheet.createRow(rowIndex++);
+                row.createCell(0).setCellValue(trial.getProcess());
+                row.createCell(1).setCellValue(trial.getPerson());
+                row.createCell(2).setCellValue(trial.getModel());
+                List<String> trialValues = Arrays.asList(trial.getTrialValues());
+                for (int i = 0; i < trialValues.size(); i++) {
+                    row.createCell(i + 3).setCellValue(trialValues.get(i));
+                }
+            }
+
+            // Save to a file in the Documents directory
+            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "MyAppExports");
+            if (!directory.exists()) {
+                directory.mkdirs(); // Create the directory if it doesn't exist
+            }
+            File file = new File(directory, "TrialData.xlsx");
+            FileOutputStream fileOut = new FileOutputStream(file);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+
+            Toast.makeText(getContext(), "Export successful! File saved at: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Export failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }

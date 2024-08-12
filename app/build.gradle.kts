@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.realtmsapp_camel"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -31,6 +31,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     val fragment_version = "1.6.1"
@@ -45,4 +47,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("org.apache.poi:poi:5.3.0")
+    implementation("org.apache.poi:poi-ooxml:5.3.0")
+
+
 }
+
+
