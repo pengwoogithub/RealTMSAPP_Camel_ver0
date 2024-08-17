@@ -7,30 +7,73 @@
     tools:context=".fragments.HomeFragment">
 
 
+    <!--Text View for title of each textbox-->
+    <TextView
+        android:layout_width="109dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="200dp"
+        android:text="Process Name"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        />
+
+    <!--Textbox with hints-->
     <EditText
         android:id="@+id/Process"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:ems="10"
         android:inputType="text"
-        android:text="Process Name"
-        android:layout_marginTop="200dp"
+        android:hint="Wiring"
+        android:layout_marginTop="220dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <TextView
+        android:id="@+id/textViewPersonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Person on Process"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/Process"
+        android:layout_marginTop="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
     <EditText
         android:id="@+id/Person"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15sp"
-        android:textSize="20dp"
+        android:layout_marginTop="35sp"
+        android:textSize="20sp"
         android:ems="10"
         android:inputType="text"
-        android:text="Person on Process"
+        android:hint="Yves De Santos"
         app:layout_constraintTop_toBottomOf="@+id/Process"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/textViewModelTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Model"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@+id/Person"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
@@ -38,32 +81,34 @@
         android:id="@+id/Model"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="text"
-        android:text="Model"
-        android:textSize="20dp"
+        android:hint="RIF-16"
+        android:textSize="20sp"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Person" />
+        app:layout_constraintTop_toBottomOf="@+id/Person"
+        />
+
 
     <TextView
         android:id="@+id/TimerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="70dp"
         android:textSize="60sp"
         android:textStyle="bold"
-        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Model"
         app:layout_constraintStart_toStartOf="parent"
-        />
-
+        app:layout_constraintTop_toBottomOf="@id/TimerView"
+        app:layout_constraintVertical_bias="0.948" />
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -111,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/TimerView"
         android:layout_margin="30sp"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/buttons"
         app:layout_constraintEnd_toEndOf="parent"
