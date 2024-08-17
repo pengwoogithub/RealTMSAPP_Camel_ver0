@@ -19,24 +19,22 @@ import com.example.realtmsapp_camel.DatabaseHelper;
 import com.example.realtmsapp_camel.R;
 import com.example.realtmsapp_camel.Trial;
 
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
+
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 public class SettingsFragment extends Fragment {
 
-    private Button exportButton;
+    private Button exportButton,clearAllButton, secretbutton;;
     private DatabaseHelper databaseHelper;
 
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -51,9 +49,16 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        clearAllButton = view.findViewById(R.id.Clear);
         exportButton = view.findViewById(R.id.Export);
         databaseHelper = new DatabaseHelper(getActivity());
 
+        clearAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showClearAllConfirmationDialog();
+            }
+        });
         exportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +91,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    //method to export the database to xls file
     private void exportDatabaseToExcel() {
         try {
             // Create a workbook and sheet
@@ -132,6 +138,32 @@ public class SettingsFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Export failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    //Method for confirming deletion of all data
+    private void showClearAllConfirmationDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm Clear All Data")
+                .setMessage("Are you sure you want to clear all data? This action cannot be undone.")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearAllData();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void clearAllData() {
+        boolean isCleared = databaseHelper.clearAllData();
+        if (isCleared) {
+            Toast.makeText(getActivity(), "All data cleared successfully", Toast.LENGTH_SHORT).show();
+            // Optionally refresh any displayed data or UI
+        } else {
+            Toast.makeText(getActivity(), "Failed to clear data", Toast.LENGTH_SHORT).show();
         }
     }
 }
