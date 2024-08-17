@@ -119,6 +119,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return trialsList;
     }
+
+    public boolean clearAllData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("DELETE FROM " + TABLE_TMS);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
 
 
