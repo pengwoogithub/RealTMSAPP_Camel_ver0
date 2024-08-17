@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
         android:layout_margin="0dp"
         android:layout_marginTop="148dp"
         android:scaleType="centerCrop"
@@ -54,7 +54,8 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+        tools:layout_editor_absoluteX="-169dp"
+        tools:layout_editor_absoluteY="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
